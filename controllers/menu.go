@@ -36,7 +36,7 @@ func AdminMenu(session *models.Session) {
 			CategoryMenu()
 
 		case 3:
-			fmt.Println(">> Report Menu")
+			ReportMenu()
 
 		case 4:
 			fmt.Println(">> Review Menu")
