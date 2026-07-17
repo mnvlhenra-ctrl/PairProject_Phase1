@@ -3,6 +3,7 @@ package controllers
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	"gamestore/database"
 	"gamestore/models"
@@ -287,7 +288,7 @@ ORDER BY o.order_date DESC;
 		var qty int
 		var total float64
 		var status string
-		var orderDate string
+		var orderDate time.Time
 
 		err := rows.Scan(
 			&orderID,
@@ -312,7 +313,7 @@ ORDER BY o.order_date DESC;
 			qty,
 			utils.FormatRupiah(total),
 			status,
-			orderDate,
+			orderDate.Format("2006-01-02 15:04:05"),
 		)
 
 	}

@@ -53,7 +53,7 @@ func Register() {
 	username := utils.InputString("Username  : ")
 	phone := utils.InputString("Phone     : ")
 	email := utils.InputString("Email     : ")
-	password := utils.InputString("Password  : ")
+	password := utils.InputString("Password : ")
 
 	tx, err := database.DB.Begin()
 
