@@ -137,7 +137,7 @@ func ProductSalesReport() {
 		p.product_id,
 		p.title,
 		IFNULL(SUM(oi.qty),0) AS total_sold,
-		IFNULL(SUM(oi.price),0) AS revenue
+		IFNULL(SUM(oi.qty * oi.price),0) AS revenue
 	FROM products p
 	LEFT JOIN order_items oi
 	ON p.product_id = oi.product_id

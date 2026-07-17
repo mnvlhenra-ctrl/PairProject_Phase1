@@ -236,3 +236,100 @@ func ShowReviews() {
 	utils.PrintLine()
 
 }
+
+// ======================================
+// REVIEW MENU
+// ======================================
+
+func ReviewMenu() {
+
+	for {
+
+		utils.PrintTitle("REVIEW MENU")
+
+		fmt.Println("1. Show Reviews")
+		fmt.Println("2. Delete Review")
+		fmt.Println("0. Back")
+
+		choice := utils.InputInt("Choose : ")
+
+		switch choice {
+
+		case 1:
+			ShowReviews()
+
+		case 2:
+			DeleteReview()
+
+		case 0:
+			return
+
+		default:
+			fmt.Println("Invalid Menu!")
+
+		}
+
+	}
+
+}
+
+// ======================================
+// DELETE REVIEW
+// ======================================
+
+func DeleteReview() {
+
+	utils.PrintTitle("DELETE REVIEW")
+
+	ShowReviews()
+
+	reviewID := utils.InputInt("Review ID : ")
+
+	confirm := utils.InputString("Delete this review? (y/n) : ")
+
+	if confirm != "y" && confirm != "Y" {
+
+		fmt.Println()
+		fmt.Println("Delete cancelled.")
+		return
+
+	}
+
+	query := `
+	DELETE FROM reviews
+	WHERE review_id = ?;
+	`
+
+	result, err := database.DB.Exec(
+		query,
+		reviewID,
+	)
+
+	if err != nil {
+
+		fmt.Println(err)
+		return
+
+	}
+
+	rowsAffected, err := result.RowsAffected()
+
+	if err != nil {
+
+		fmt.Println(err)
+		return
+
+	}
+
+	if rowsAffected == 0 {
+
+		fmt.Println()
+		fmt.Println("Review not found.")
+		return
+
+	}
+
+	fmt.Println()
+	fmt.Println("Review deleted successfully!")
+
+}

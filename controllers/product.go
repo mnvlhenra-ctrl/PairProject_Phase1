@@ -174,13 +174,20 @@ func AddProduct() {
 	var temp int
 
 	err := database.DB.QueryRow(
-		"SELECT category_id FROM categories WHERE category_id=?",
+		"SELECT category_id FROM categories WHERE category_id = ?",
 		categoryID,
 	).Scan(&temp)
 
 	if err == sql.ErrNoRows {
 
 		fmt.Println("Category not found.")
+		return
+
+	}
+
+	if err != nil {
+
+		fmt.Println(err)
 		return
 
 	}
@@ -271,6 +278,27 @@ func UpdateProduct() {
 	ShowCategories()
 
 	categoryID := utils.InputInt("New Category ID : ")
+
+	var temp int
+
+	err = database.DB.QueryRow(
+		"SELECT category_id FROM categories WHERE category_id = ?",
+		categoryID,
+	).Scan(&temp)
+
+	if err == sql.ErrNoRows {
+
+		fmt.Println("Category not found.")
+		return
+
+	}
+
+	if err != nil {
+
+		fmt.Println(err)
+		return
+
+	}
 
 	title := utils.InputString("New Title : ")
 
