@@ -78,7 +78,7 @@ func TotalRevenue() {
 
 	}
 
-	fmt.Println("Total Revenue : Rp", revenue)
+	fmt.Println("Total Revenue :", utils.FormatRupiah(revenue))
 
 }
 
@@ -186,11 +186,11 @@ func ProductSalesReport() {
 		}
 
 		fmt.Printf(
-			"%-5d %-30s %-10d Rp %-12.0f\n",
+			"%-5d %-30s %-10d %-15s\n",
 			id,
 			title,
 			sold,
-			revenue,
+			utils.FormatRupiah(revenue),
 		)
 
 	}

@@ -105,3 +105,39 @@ func InputFloat(prompt string) float64 {
 	}
 
 }
+
+// ======================================
+// FORMAT RUPIAH
+// ======================================
+
+func FormatRupiah(amount float64) string {
+
+	number := strconv.FormatFloat(amount, 'f', 0, 64)
+
+	n := len(number)
+
+	if n <= 3 {
+		return "Rp " + number
+	}
+
+	result := ""
+
+	count := 0
+
+	for i := n - 1; i >= 0; i-- {
+
+		result = string(number[i]) + result
+
+		count++
+
+		if count%3 == 0 && i != 0 {
+
+			result = "." + result
+
+		}
+
+	}
+
+	return "Rp " + result
+
+}

@@ -275,7 +275,7 @@ func DeleteCategory() {
 	WHERE category_id = ?;
 	`
 
-	_, err := database.DB.Exec(
+	result, err := database.DB.Exec(
 		query,
 		id,
 	)
@@ -289,7 +289,21 @@ func DeleteCategory() {
 
 	}
 
+	rowsAffected, err := result.RowsAffected()
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if rowsAffected == 0 {
+
+		fmt.Println()
+		fmt.Println("Category not found.")
+		return
+
+	}
+
 	fmt.Println()
 	fmt.Println("Category deleted successfully!")
-
 }

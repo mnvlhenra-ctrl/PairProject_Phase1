@@ -113,11 +113,11 @@ func ShowProducts() {
 		}
 
 		fmt.Printf(
-			"%-5d %-30s %-15s Rp %-12.0f %-10d\n",
+			"%-5d %-30s %-15s %-15s %-10d\n",
 			product.ProductID,
 			product.Title,
 			category,
-			product.Price,
+			utils.FormatRupiah(product.Price),
 			product.Stock,
 		)
 
@@ -263,7 +263,7 @@ func UpdateProduct() {
 
 	fmt.Println("Title     :", product.Title)
 	fmt.Println("Category  :", category)
-	fmt.Println("Price     :", product.Price)
+	fmt.Println("Price     :", utils.FormatRupiah(product.Price))
 	fmt.Println("Stock     :", product.Stock)
 
 	utils.PrintLine()

@@ -87,9 +87,9 @@ func BuyGame(session *models.Session) {
 	utils.PrintLine()
 
 	fmt.Println("Game  :", product.Title)
-	fmt.Println("Price :", product.Price)
+	fmt.Println("Price :", utils.FormatRupiah(product.Price))
 	fmt.Println("Qty   :", qty)
-	fmt.Println("Total :", total)
+	fmt.Println("Total :", utils.FormatRupiah(total))
 
 	utils.PrintLine()
 
@@ -151,21 +151,23 @@ func BuyGame(session *models.Session) {
 
 	}
 
+	// ======================================
 	// INSERT ORDER ITEM
+	// ======================================
 
 	orderItemQuery := `
-	INSERT INTO order_items
-	(order_id, product_id, qty, price)
-	VALUES
-	(?,?,?,?);
-	`
+INSERT INTO order_items
+(order_id, product_id, qty, price)
+VALUES
+(?,?,?,?);
+`
 
 	_, err = tx.Exec(
 		orderItemQuery,
 		orderID,
 		productID,
 		qty,
-		total,
+		product.Price,
 	)
 
 	if err != nil {
@@ -218,7 +220,7 @@ func BuyGame(session *models.Session) {
 	fmt.Println("===================================")
 	fmt.Println("Purchase Successful!")
 	fmt.Println("Order ID :", orderID)
-	fmt.Println("Total    :", total)
+	fmt.Println("Total    :", utils.FormatRupiah(total))
 	fmt.Println("===================================")
 
 }
@@ -232,21 +234,21 @@ func MyOrders(session *models.Session) {
 	utils.PrintTitle("MY ORDERS")
 
 	query := `
-	SELECT
-		o.order_id,
-		p.title,
-		oi.qty,
-		oi.price,
-		o.status,
-		o.order_date
-	FROM orders o
-	JOIN order_items oi
-	ON o.order_id = oi.order_id
-	JOIN products p
-	ON oi.product_id = p.product_id
-	WHERE o.user_id = ?
-	ORDER BY o.order_date DESC;
-	`
+SELECT
+	o.order_id,
+	p.title,
+	oi.qty,
+	(oi.qty * oi.price) AS total,
+	o.status,
+	o.order_date
+FROM orders o
+JOIN order_items oi
+ON o.order_id = oi.order_id
+JOIN products p
+ON oi.product_id = p.product_id
+WHERE o.user_id = ?
+ORDER BY o.order_date DESC;
+`
 
 	rows, err := database.DB.Query(
 		query,
@@ -304,11 +306,11 @@ func MyOrders(session *models.Session) {
 		}
 
 		fmt.Printf(
-			"%-5d %-30s %-8d Rp %-12.0f %-12s %-20s\n",
+			"%-5d %-30s %-8d %-15s %-12s %-20s\n",
 			orderID,
 			title,
 			qty,
-			total,
+			utils.FormatRupiah(total),
 			status,
 			orderDate,
 		)

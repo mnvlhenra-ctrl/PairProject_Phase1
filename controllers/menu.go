@@ -39,7 +39,7 @@ func AdminMenu(session *models.Session) {
 			ReportMenu()
 
 		case 4:
-			fmt.Println(">> Review Menu")
+			ShowReviews()
 
 		case 0:
 			fmt.Println()
