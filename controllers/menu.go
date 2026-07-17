@@ -81,13 +81,13 @@ func CustomerMenu(session *models.Session) {
 			ShowProducts()
 
 		case 2:
-			fmt.Println(">> Buy Game")
+    BuyGame(session)
 
 		case 3:
-			fmt.Println(">> My Orders")
+    MyOrders(session)
 
 		case 4:
-			fmt.Println(">> Add Review")
+    AddReview(session)
 
 		case 0:
 			fmt.Println()

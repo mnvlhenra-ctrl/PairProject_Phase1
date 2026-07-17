@@ -12,7 +12,7 @@ var DB *sql.DB
 
 func ConnectDatabase() {
 
-	dsn := "root:Blackhell11!@tcp(localhost:3306)/Game_Store?parseTime=true"
+	dsn := "root:@tcp(localhost:3306)/Game_Store?parseTime=true"
 
 	db, err := sql.Open("mysql", dsn)
 
