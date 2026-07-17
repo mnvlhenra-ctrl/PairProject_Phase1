@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"fmt"
+
 	"gamestore/database"
 	"gamestore/models"
 	"gamestore/utils"
@@ -41,5 +43,44 @@ func Login() (*models.Session, error) {
 	}
 
 	return &session, nil
+
+}
+// ======================================
+// REGISTER
+// ======================================
+
+func Register() {
+
+	utils.PrintTitle("REGISTER")
+
+	name := utils.InputString("Name     : ")
+	email := utils.InputString("Email    : ")
+	password := utils.InputString("Password : ")
+
+	query := `
+	INSERT INTO users
+	(email, password, name, role)
+	VALUES
+	(?, ?, ?, 'customer');
+	`
+
+	_, err := database.DB.Exec(
+		query,
+		email,
+		password,
+		name,
+	)
+
+	if err != nil {
+
+		fmt.Println()
+		fmt.Println("Register failed.")
+		fmt.Println("Email may already be used.")
+		return
+
+	}
+
+	fmt.Println()
+	fmt.Println("Register successful! Please login.")
 
 }
